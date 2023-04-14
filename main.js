@@ -5,8 +5,9 @@ document.getElementById("test").style.color = "green"
 function d20() {
     return Math.floor(Math.random() * 20) + 1
 }
-
+let astralDeva = ["Astral Deva", 14, ["Neutral Good", "Medium", "Celestial", "Angel"], [26, "Darkvision"], ["Celestial", "Draconic", "Infernal", "Tongues"], [24,0,0,0,0,26,28,0,0,0,0,24,0,0,0,0],[8,4,5,4,4,6], [36,27,26,22], 285, ["Evil: 15"], ["+1 status to all saves vs. magic", "Traveler's Aura", "Messenger's Amnesty"] ]
 let succubus = ["Succubus", 7, ["Chaotic Evil", "Medium", "Fiend", "Demon"], [15, "Darkvision"],["Abyssal", "Celestial", "Common", "Draconic", "", "", "", "Telepathy: 100 ft", "Tongues"],[14,0,0,0,18,20,16,0,0,0,0,13,15,14,0,0],[2,3,4,4,2,7], [23, 15, 14, 17], 100, ["Cold Iron: 5", "Good: 5"], ["+1 status to all saves vs. magic", "Rejection Vulnerability", "Seductive Presence"]]
+
 
 class Creature {
     constructor(name, species, level, tags, vision, languages, skills, abilityScoreModifiers, defenses, maxHP, weaknesses, passives) {
@@ -22,9 +23,9 @@ class Creature {
         this.hpMax = maxHP
         this.hpCurrent = this.hpMax
         this.ac = defenses[0]
-        this.saveFortitude = defenses[1]
-        this.saveReflex = defenses[2]
-        this.saveWill = defenses[3]
+        this.saveBonusFortitude = defenses[1]
+        this.saveBonusReflex = defenses[2]
+        this.saveBonusWill = defenses[3]
 
         this.skillBonusAcrobatics = skills[0]
         this.skillBonusArcana = skills[1]
@@ -51,17 +52,17 @@ class Creature {
     get savingThrowFortitude() {
         let roll = d20()
         console.log(roll === 1 ? "**Natural 1**" : roll === 20 ? "***NATURAL TWENTY***" : roll)
-        return roll + this.saveFortitude
+        return roll + this.saveBonusFortitude
     }
     get savingThrowReflex() {
         let roll = d20()
         console.log(roll === 1 ? "**Natural 1**" : roll === 20 ? "***NATURAL TWENTY***": roll)
-        return roll + this.saveReflex
+        return roll + this.saveBonusReflex
     }
     get savingThrowWill() {
         let roll = d20()
         console.log(roll === 1 ? "**Natural 1**" : roll === 20 ? "***NATURAL TWENTY***": roll)
-        return roll + this.saveWill
+        return roll + this.saveBonusWill
     }
 
     //skill checks, including perception
@@ -141,14 +142,22 @@ class Creature {
 }
 
 let test = new Creature("Samantha", ...succubus)
+let blah = new Creature("Sadie", ...astralDeva)
 
 
-/* optimizations
+document.querySelector("savingThrowFortitude").addEventListener("click", rollSavingThrowFort)
 
-add skills
-add combat abilities
+
+
+
+/* 
+optimizations:
+add react
+add monster equipment
+add combat abilities (movement speeds, attacks, etc)
 add more monsters
 if monsters and characters need their skills calculated in different ways, perhaps the skill section for monsters can be class extension from creature?
 
-
+completed: 
+add skills
 */
